@@ -193,7 +193,8 @@
 				</mat-list>
 			</mat-expansion-panel>
       <!--Контроль 3 группы на постановку нв Д-учет-->
-      <mat-expansion-panel (opened)="setTrue(4,true)"
+      <mat-expansion-panel class="example-section"  *ngIf="currentUser['role'][0].id > 778"
+                           (opened)="setTrue(4,true)"
                            (closed)="setTrue(4,false)">
 
         <mat-expansion-panel-header>

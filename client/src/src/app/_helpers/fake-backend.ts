@@ -4,7 +4,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOptions, realBackend: XHRBackend) {
     // array in local storage for registered users
     let users: any[] = JSON.parse(localStorage.getItem('users')) || [];
-    
+
     if(users.length == 0 ){
       let  Roles = [{id:777, role: 'Admin'}];
 	    users= [{
@@ -27,10 +27,15 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
 	    username: 'VTB',
 	    password: 'dk!kL',
 	    role: [{id:2, role: 'SMO_VTB'}]
-	    }
+	    },{
+        id: 5,
+        username: 'test',
+        password: 'test',
+        role: [{id:1001, role: 'test'}]
+      }
 	    ]
     }
-    
+
 
     // configure fake backend
     backend.connections.subscribe((connection: MockConnection) => {
