@@ -134,8 +134,8 @@ public class XA_Dream2DaoBean implements XA_Dream2Dao{
         ResponseGer rGer = parseResponse(respXml);
         List<ResponseGer> ls = new ArrayList<ResponseGer>(1);
         ls.add(rGer);
-        
-        
+
+
 		
 		return ls;
 		

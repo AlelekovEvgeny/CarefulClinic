@@ -681,6 +681,7 @@ public class ProphylacticDAOBean implements ProphylacticDAO{
 			if(id == 1)	directoryDestination = "\\content\\upload\\1\\process";
 			if(id == 2)	directoryDestination = "\\content\\upload\\2\\process";
 			if(id == 4)	directoryDestination = "\\content\\upload\\4\\process";
+			if(id > 1000)	directoryDestination = "\\content\\upload\\all\\process";
 			
 			directoryDestination = directoryServer+directoryDestination;
 			

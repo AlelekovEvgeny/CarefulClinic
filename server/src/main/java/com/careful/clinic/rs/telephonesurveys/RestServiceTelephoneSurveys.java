@@ -41,6 +41,7 @@ public class RestServiceTelephoneSurveys {
         if(id == 1)	directoryDestination = "\\content\\report\\telephonesurveys\\flk1\\1";
         if(id == 2)	directoryDestination = "\\content\\report\\telephonesurveys\\flk1\\2";
         if(id == 4)	directoryDestination = "\\content\\report\\telephonesurveys\\flk1\\4";
+        if(id == 1001)	directoryDestination = "\\content\\report\\telephonesurveys\\flk1\\all";
 
         directoryDestination = directoryServer+directoryDestination+File.separator+namefile.substring(11, namefile.length());//substring необходим, так как в переменную namefile передано имя файла с датой его измененя (см.DAO)
 

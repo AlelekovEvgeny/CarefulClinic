@@ -137,6 +137,7 @@ public class RestServiceProphylactic {
 		if(Integer.valueOf(authHeaders.get(0)) == 1)	UPLOADED_FILE_PATH = "\\content\\upload\\1\\process\\";
 		if(Integer.valueOf(authHeaders.get(0)) == 2)	UPLOADED_FILE_PATH = "\\content\\upload\\2\\process\\";
 		if(Integer.valueOf(authHeaders.get(0)) == 4)	UPLOADED_FILE_PATH = "\\content\\upload\\4\\process\\";
+		if(Integer.valueOf(authHeaders.get(0)) > 1000)	UPLOADED_FILE_PATH = "\\content\\upload\\all\\process\\";
 
 		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		List<InputPart> inputParts = uploadForm.get("uploadFile");
@@ -330,6 +331,7 @@ public class RestServiceProphylactic {
 		if(Integer.valueOf(v) == 1)	return TRANSVER_UPLOADED_FILE_PATH = "\\content\\upload\\1\\process\\";
 		if(Integer.valueOf(v) == 2)	return TRANSVER_UPLOADED_FILE_PATH = "\\content\\upload\\2\\process\\";
 		if(Integer.valueOf(v) == 4)	return TRANSVER_UPLOADED_FILE_PATH = "\\content\\upload\\4\\process\\";
+		if(Integer.valueOf(v) > 1000)	return TRANSVER_UPLOADED_FILE_PATH = "\\content\\upload\\all\\process\\";
 		
 		return TRANSVER_UPLOADED_FILE_PATH;
 	}

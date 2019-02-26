@@ -24,7 +24,7 @@
 	<!-- <mat-card-content @questionsAnim> -->
 	<mat-card-content>
 		<mat-accordion>
-		  <mat-expansion-panel (opened)="setTrue(1,true)" (closed)="setTrue(1,false)">
+		  <mat-expansion-panel class="example-section"  *ngIf="currentUser['role'][0].id < 778" (opened)="setTrue(1,true)" (closed)="setTrue(1,false)">
 			<mat-expansion-panel-header>
 			  <mat-panel-title>
 				{{_3a_expertise}}
@@ -81,7 +81,7 @@
 
 		</mat-expansion-panel>
 
-		  <mat-expansion-panel (opened)="setTrue(2,true)" (closed)="setTrue(2,false)">
+		  <mat-expansion-panel class="example-section"  *ngIf="currentUser['role'][0].id < 778" (opened)="setTrue(2,true)" (closed)="setTrue(2,false)">
 			<mat-expansion-panel-header>
 			  <mat-panel-title>
 				{{_3b_expertise}}
@@ -139,8 +139,9 @@
 
 		  </mat-expansion-panel>
 		  <!--////-->
-		  <mat-expansion-panel (opened)="setTrue(3,true)"
-							   (closed)="setTrue(3,false)">
+		  <mat-expansion-panel class="example-section"  *ngIf="currentUser['role'][0].id < 778"
+                           (opened)="setTrue(3,true)"
+                           (closed)="setTrue(3,false)">
 
 			<mat-expansion-panel-header>
 				<mat-panel-title>
@@ -193,7 +194,7 @@
 				</mat-list>
 			</mat-expansion-panel>
       <!--Контроль 3 группы на постановку нв Д-учет-->
-      <mat-expansion-panel class="example-section"  *ngIf="currentUser['role'][0].id > 778"
+      <mat-expansion-panel class="example-section"  *ngIf="currentUser['role'][0].id < 778"
                            (opened)="setTrue(4,true)"
                            (closed)="setTrue(4,false)">
 
