@@ -140,6 +140,39 @@ public class XA_Dream2DaoBean implements XA_Dream2Dao{
 		return ls;
 		
 	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public Collection<?> getInfoMis(PersonModel personmodel) throws ParseException, ParserConfigurationException, SAXException, IOException{
+
+
+		StoredProcedureQuery storedProcedure =  em_dream2.createStoredProcedureQuery("sys.connect_mis2019.disp_fiod");
+
+		storedProcedure.registerStoredProcedureParameter("response",String.class, ParameterMode.OUT);
+
+		storedProcedure.registerStoredProcedureParameter("surname",String.class, ParameterMode.IN);
+		storedProcedure.registerStoredProcedureParameter("firstname",String.class, ParameterMode.IN);
+		storedProcedure.registerStoredProcedureParameter("lastname",String.class, ParameterMode.IN);
+		storedProcedure.registerStoredProcedureParameter("datebythday",String.class, ParameterMode.IN);
+		storedProcedure.registerStoredProcedureParameter("year",Integer.class, ParameterMode.IN);
+
+		storedProcedure.setParameter("surname", personmodel.getSurname());
+		storedProcedure.setParameter("firstname", personmodel.getFirstname());
+		storedProcedure.setParameter("lastname", personmodel.getLastname());
+		storedProcedure.setParameter("datebythday", personmodel.getBithday());
+		storedProcedure.setParameter("year", personmodel.getYear());
+
+		storedProcedure.execute();
+
+		String respXml = (String)storedProcedure.getOutputParameterValue("response");
+		ResponseGer rGer = parseResponse(respXml);
+		List<ResponseGer> ls = new ArrayList<ResponseGer>(1);
+		ls.add(rGer);
+
+
+
+		return ls;
+
+	}
 	
 	
 	/*

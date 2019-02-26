@@ -450,6 +450,21 @@ public class RestServiceProphylactic {
 	}
 
 	/**
+	 * Поиск в базе МИС
+	 */
+	@POST
+	@Path("/search_mis")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<?> searchMis(PersonModel personmodel) throws ParserConfigurationException, SAXException, IOException, ParseException {
+
+		List<?> df = (List<?>) xa_Dream2Dao.getInfoMis(personmodel);
+
+		return df;
+
+	}
+
+	/**
 	 * Поиск в базе информированных
 	 * @param personmodel критерии поиска
 	 * @return объект из базы информированных

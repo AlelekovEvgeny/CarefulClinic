@@ -13,6 +13,7 @@ export const environment = {
  tab1:'Данные РС ЕРЗ',
  tab2:'Данные АИС ГЭР',
  tab3:'Информирование',
+ tab4:'В разработке',
  surname : 'Фамилия',
  firstname : 'Имя',
  lastname : 'Отчество',

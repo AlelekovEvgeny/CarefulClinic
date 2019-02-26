@@ -232,6 +232,15 @@ export class PeopleDatabase {
 
   }
 
+  searchPersonMis(per_data: any): Promise<any> {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    return this.http
+      .post(this.serverUrl + '/search_mis', JSON.stringify(per_data), {headers: headers})
+      .toPromise()
+      .then(res => res.json()[0])
+
+  }
+
 
   initialize() {
     LATEST_ID = 0;

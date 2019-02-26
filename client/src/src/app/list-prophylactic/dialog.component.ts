@@ -50,6 +50,7 @@ export class DialogComponent{
  data_not_found: string = environment.data_not_found;
  tab2: string = environment.tab2;
  tab3: string = environment.tab3;
+ tab4: string = environment.tab4;
  surname: string = environment.surname;
  firstname : string = environment.firstname;
  lastname : string = environment.lastname;
@@ -211,6 +212,27 @@ _error1: string = environment.error1;
 
 
 		}
+   if(this.currentIndexPage === 4){
+     this.show= true;
+     this.disableSelect = true;
+     let data_cust ={
+       surname: this.data.personSurname,
+       firstname:this.data.personKindfirstname,
+       lastname:this.data.personKindlastname,
+       bithday:this.data.personBirthday,
+       year:	selectedValue.value
+     }
+     this.personSearchIsurService.searchPersonMis(data_cust)
+       .then(result =>{
+         this.show= false;
+         this.data_ger=result;
+         this.disableSelect = false;
+
+       });
+
+
+
+   }
    }
 
  check($event : any): void {
@@ -235,6 +257,9 @@ _error1: string = environment.error1;
 	 	  this.data_survey.length === 0 ? this.initform() : '';
 	 	});
  	}
+
+
+
  	// tab '������ ���' have the index equal 1
  	if($event.index === 1){
 
@@ -300,6 +325,25 @@ _error1: string = environment.error1;
 
 	 	});
  	}
+   if($event.index === 4){
+
+     this.disableSelect = true;
+     this.show= true;
+
+     let data_cust ={
+       surname: this.data.personSurname,
+       firstname:this.data.personKindfirstname,
+       lastname:this.data.personKindlastname,
+       bithday:this.data.personBirthday,
+       year:this.selected
+     }
+     this.personSearchIsurService.searchPersonMis(data_cust)
+       .then(result =>{
+         this.disableSelect = false;
+         this.show= false;
+         this.data_ger=result;
+       });
+   }
 
  }
 
