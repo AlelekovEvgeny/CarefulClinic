@@ -119,10 +119,13 @@ public class XA_Dream2DaoBean implements XA_Dream2Dao{
 	/**Объявляем метод с параметрами класса PersonModel*/
 	public Collection<?> getInfoG(PersonModel personmodel) throws ParseException, ParserConfigurationException, SAXException, IOException{
 		
-		
+		/**создаём переменную в которую передаём хранимую процедуру в базе данных*/
 		StoredProcedureQuery storedProcedure =  em_dream2.createStoredProcedureQuery("sys.connect_mis.disp_fiod");
         
-        storedProcedure.registerStoredProcedureParameter("response",String.class, ParameterMode.OUT);
+        /**создаём реестр параметров: имя параметра, зарегистрированного или указанного в метаданных;
+         * тип параметра;
+         * режим параметра*/
+		storedProcedure.registerStoredProcedureParameter("response",String.class, ParameterMode.OUT);
         
         storedProcedure.registerStoredProcedureParameter("surname",String.class, ParameterMode.IN);
         storedProcedure.registerStoredProcedureParameter("firstname",String.class, ParameterMode.IN);
@@ -130,15 +133,27 @@ public class XA_Dream2DaoBean implements XA_Dream2Dao{
         storedProcedure.registerStoredProcedureParameter("datebythday",String.class, ParameterMode.IN);
         storedProcedure.registerStoredProcedureParameter("year",Integer.class, ParameterMode.IN);
         
+        /**Привязка значения аргумента к именованному параметру. Значение берём из модели Personmodel*/
         storedProcedure.setParameter("surname", personmodel.getSurname());
         storedProcedure.setParameter("firstname", personmodel.getFirstname());
         storedProcedure.setParameter("lastname", personmodel.getLastname());
         storedProcedure.setParameter("datebythday", personmodel.getBithday());
         storedProcedure.setParameter("year", personmodel.getYear());
 
+        /**Возвращает true, если первый результат соответствует результирующему набору, и false, если это число обновлений или если нет других результатов,
+         *  кроме параметров INOUT и OUT, если таковые имеются.
+         *  @retern true, если первый результат соответствует результирующему набору.
+         *  @throws QueryTimeoutException, если выполнение запроса превышает значение времени ожидания запроса, установленное и только оператор откатывается
+         *  @throws PersistenceException, если выполнение запроса превышает установленное значение таймаута запроса и транзакция откатывается*/
         storedProcedure.execute();
 
+        /**Метод getOutputParameterValue извлекает значение, возвращаемое процедурой через параметр INOUT или OUT.
+         * Для переносимости все результаты, соответствующие результирующим наборам и счетчикам обновлений,
+         * должны быть получены до значений выходных параметров.
+         * Таким образом в переменную respXml записывается ответный XML файл.*/
         String respXml = (String)storedProcedure.getOutputParameterValue("response");
+
+        /**Далее с помоёщью модели ResponseGer и метода parseResponse извлекаем нужные нам данные из XML файла и записываем их в ls*/
         ResponseGer rGer = parseResponse(respXml);
         List<ResponseGer> ls = new ArrayList<ResponseGer>(1);
         ls.add(rGer);
