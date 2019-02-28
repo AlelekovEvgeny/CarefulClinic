@@ -107,8 +107,16 @@ public class XA_Dream2DaoBean implements XA_Dream2Dao{
 		return query.getResultList();
 		
 	}
-	
+
+	/**
+	 * Аннотация @TransactionAttribute ставит различные ограничители принадлежности к текущей транзакции
+	 * REQUIRES_NEW - если метод запускается внутри транзакции, то она останавливается, запускается новая, отрабатывается, а затем продолжает работу первая.
+	 * Если метод запускается самостоятельно, то просто стартует новая транзакция. Данный модификатор служит для того,
+	 * что бы быть уверенным, что всегда будет запущена новая транзакция.
+	 */
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	/**Объявляем метод с параметрами класса PersonModel*/
 	public Collection<?> getInfoG(PersonModel personmodel) throws ParseException, ParserConfigurationException, SAXException, IOException{
 		
 		
