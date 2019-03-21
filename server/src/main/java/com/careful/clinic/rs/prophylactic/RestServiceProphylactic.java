@@ -456,11 +456,13 @@ public class RestServiceProphylactic {
 	@Path("/search_mis")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<?> searchMis(PersonModel personmodel) throws ParserConfigurationException, SAXException, IOException, ParseException {
+	//public Collection<?> searchMis(PersonModel personmodel) throws ParserConfigurationException, SAXException, IOException, ParseException {
+	public void searchMis(PersonModel personmodel) throws ParserConfigurationException, SAXException, IOException, ParseException {
 
-		List<?> df = (List<?>) xa_Dream2Dao.getInfoMis(personmodel);
+		//List<?> df = (List<?>) xa_Dream2Dao.getInfoMis(personmodel);
 
-		return df;
+		//return df;
+		xa_Dream2Dao.getInfoMis(personmodel);
 
 	}
 

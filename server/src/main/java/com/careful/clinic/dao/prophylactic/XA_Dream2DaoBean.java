@@ -1,14 +1,12 @@
 package com.careful.clinic.dao.prophylactic;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -22,6 +20,7 @@ import javax.persistence.TypedQuery;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.ws.BindingProvider;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -155,20 +154,90 @@ public class XA_Dream2DaoBean implements XA_Dream2Dao{
 
         /**Далее с помоёщью модели ResponseGer и метода parseResponse извлекаем нужные нам данные из XML файла и записываем их в ls*/
         ResponseGer rGer = parseResponse(respXml);
+        System.out.println("respXml = "+respXml);
+        System.out.println("rGer = "+rGer);
         List<ResponseGer> ls = new ArrayList<ResponseGer>(1);
         ls.add(rGer);
-        
-        
+
+
 		
 		return ls;
 		
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Collection<?> getInfoMis(PersonModel personmodel) throws ParseException, ParserConfigurationException, SAXException, IOException{
+	public void getInfoMis(PersonModel personmodel) throws ParseException, ParserConfigurationException, SAXException, IOException{
+
+		final String directoryServer = System.getProperty("jboss.home.dir");
+
+		FileWriter fw = null;
+
+		try
+
+		{
+
+			fw = new FileWriter (directoryServer+"\\content\\xml\\"+"request.xml");
+
+// whatever you want written into your .txt document
+
+			fw.write ("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:soap=\"http://www.bars-open.ru/med/soap/\">"+"\r\n");
+			fw.write ("<soapenv:Header/>"+"\r\n");
+			fw.write ("<soapenv:Body>"+"\r\n");
+			fw.write ("<soap:getPersonDataRequest>"+"\r\n");
+			fw.write ("<surname>"+personmodel.getSurname()+"</surname>"+"\r\n");
+			fw.write ("<name>"+personmodel.getFirstname()+"</name>"+"\r\n");
+			fw.write ("<middle_name>"+personmodel.getLastname()+"</middle_name>"+"\r\n");
+			fw.write ("<date_birth>"+personmodel.getBithday()+"</date_birth>"+"\r\n");
+			fw.write("<year>"+personmodel.getYear()+"</year>"+"\r\n");
+			fw.write ("</soap:getPersonDataRequest>"+"\r\n");
+			fw.write ("</soapenv:Body>"+"\r\n");
+			fw.write ("</soapenv:Envelope>"+"\r\n");
+				System.out.println("Document completed.");
+			fw.close();
+
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 
 
-		StoredProcedureQuery storedProcedure =  em_dream2.createStoredProcedureQuery("sys.connect_mis2019.disp_fiod");
+		String SOAPUrl = "http://***";
+		String xmlFile2Send = directoryServer+"\\content\\xml\\request.xml";
+
+		URL url = new URL(SOAPUrl);
+		URLConnection connection = url.openConnection();
+		HttpURLConnection httpConn = (HttpURLConnection) connection;
+		FileInputStream fin = new FileInputStream(xmlFile2Send);
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+
+        BindingProvider bp = (BindingProvider) connection;
+        Map<String, Object> map = bp.getRequestContext();
+        map.put(BindingProvider.USERNAME_PROPERTY, "***");
+        map.put(BindingProvider.PASSWORD_PROPERTY, "***");
+
+		copy(fin, bout);
+		fin.close();
+
+		byte[] b = bout.toByteArray();
+		StringBuffer buf=new StringBuffer();
+		String s=new String(b);
+
+		httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
+		httpConn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+		httpConn.setRequestProperty("SOAPAction", "");
+		httpConn.setRequestMethod("POST");
+		httpConn.setDoOutput(true);
+
+
+		OutputStream out = httpConn.getOutputStream();
+		System.out.println("Поток открыт.");
+		out.write(b);
+		out.close();
+
+
+
+		/*StoredProcedureQuery storedProcedure =  em_dream2.createStoredProcedureQuery("sys.connect_mis2019.disp_fiod");
 
 		storedProcedure.registerStoredProcedureParameter("response",String.class, ParameterMode.OUT);
 
@@ -193,8 +262,23 @@ public class XA_Dream2DaoBean implements XA_Dream2Dao{
 
 
 
-		return ls;
+		return ls;*/
 
+	}
+	public static void copy(InputStream in, OutputStream out)
+			throws IOException {
+
+		synchronized (in) {
+			synchronized (out) {
+				byte[] buffer = new byte[256];
+				while (true) {
+					int bytesRead = in.read(buffer);
+					if (bytesRead == -1)
+						break;
+					out.write(buffer, 0, bytesRead);
+				}
+			}
+		}
 	}
 	
 	
@@ -334,4 +418,28 @@ public class XA_Dream2DaoBean implements XA_Dream2Dao{
 		
 		return resp;
 	}
+/*	public void requestInMis() throws IOException{
+		URL url = new URL("http://***");
+
+
+		Map<String, Object> req_ctx = ((BindingProvider)).getRequestContext();//интерфейс BindingProvider предоставляет доступ к привязке протокола и связанным с ним контекстным объектам для обработки запросов и ответных сообщений.
+		req_ctx.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://url сервиса/corews?wsdl");
+
+		Map<String, List<String>> headers = new HashMap<String, List<String>>();
+		headers.put("Username", Collections.singletonList("логин"));
+		headers.put("Password", Collections.singletonList("пароль"));
+		req_ctx.put(MessageContext.HTTP_REQUEST_HEADERS, headers);
+		String entity_val =  readFile("путь до xml файла", StandardCharsets.UTF_8);
+
+		System.out.println(entity_val);
+	}
+	{client = new Socket("server", port);
+	bis = new BufferedInputStream(new FileInputStream("somefile.dat"));
+	bos = new BufferedOutputStream(client.getOutputStream());
+	byteArray = new byte[8192];
+while ((in = bis.read(byteArray)) != -1){
+		bos.write(byteArray,0,in);
+	}
+bis.close();
+bos.close();}*/
 }
