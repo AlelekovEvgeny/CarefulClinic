@@ -50,6 +50,7 @@ export class DialogComponent{
  data_not_found: string = environment.data_not_found;
  tab2: string = environment.tab2;
  tab3: string = environment.tab3;
+ zno: string = environment.zno;
  surname: string = environment.surname;
  firstname : string = environment.firstname;
  lastname : string = environment.lastname;

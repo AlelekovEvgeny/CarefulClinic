@@ -387,6 +387,100 @@
       </ng-template>
     </ng-template>
   </mat-tab>
+  <mat-tab  label="{{zno}}"><div [@toggle]="show" style="overflow: hidden;"
+                                  (@toggle.start)="animationStarted($event)"
+                                  (@toggle.done)="animationDone($event)"
+                                  *ngIf="show" ><mat-spinner style="margin:auto; margin-top:50px;"></mat-spinner></div>
+
+    <div [@toggle]="!show" *ngIf="!show">
+      <table cellspacing="0">
+        <tr>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput placeholder="{{start_date_etap1}}" value="{{data_ger.start_date_etap1}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput value="{{data_ger.end_date_etap1}}" placeholder="{{end_date_etap1}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput value="{{data_ger.start_date_etap2}}" placeholder="{{start_date_etap2}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput value="{{data_ger.end_date_etap2}}" placeholder="{{end_date_etap2}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput value="{{data_ger.ref_id_person}}" placeholder="{{ref_id_person}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput value="{{data_ger.pm_god}}" placeholder="{{pm_god}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput value="{{data_ger.pm_kvartal}}" placeholder="{{pm_kvartal}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput value="{{data_ger.tel}}" placeholder="{{tel}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput value="{{data_ger.pm_result}}" placeholder="{{pm_result}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+          <td>
+            <mat-list-item>
+              <mat-input-container>
+                <input matInput value="{{data_ger.pm_HOSPITAL_RESULT}}" placeholder="{{PM_HOSPITAL_RESULT}}">
+              </mat-input-container>
+            </mat-list-item>
+          </td>
+        </tr>
+      </table>
+
+      <mat-list-item class="full-width">
+
+        <textarea  placeholder="{{adress}}">{{data_ger.adress}}</textarea>
+
+      </mat-list-item>
+    </div>
+  </mat-tab>
 </mat-tab-group>
 
 

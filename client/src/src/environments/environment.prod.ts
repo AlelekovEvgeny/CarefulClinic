@@ -8,6 +8,7 @@ export const environment = {
  tab1:'Данные РС ЕРЗ',
  tab2:'Данные АИС ГЭР',
  tab3:'Информирование',
+  zno:'Информация ЗНО',
  surname : 'Фамилия',
  firstname : 'Имя',
  lastname : 'Отчество',
